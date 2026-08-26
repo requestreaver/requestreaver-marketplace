@@ -1,0 +1,26 @@
+{
+  "id": "secret-detector",
+  "name": "Secret Detector",
+  "version": "1.0.0",
+  "author": "RequestReaver",
+  "description": "Detects secrets, API keys, tokens and private keys exposed in requests and responses, and raises a finding for each one.",
+  "category": "detection",
+  "tags": ["secrets", "detection", "keys"],
+  "type": "observer",
+  "main": "index.js",
+  "files": ["weapon.json", "index.js", "icon.svg"],
+  "permissions": ["traffic:observe", "findings:write"],
+  "icon": "icon.svg",
+  "changelog": [
+    {
+      "version": "1.0.0",
+      "date": "2026-08-26",
+      "notes": [
+        "Initial release.",
+        "Detects AWS, Google, Slack, GitHub and Stripe keys plus private key blocks."
+      ]
+    }
+  ],
+  "minAppVersion": "0.1.0",
+  "homepage": "https://github.com/requestreaver/requestreaver-marketplace"
+}
