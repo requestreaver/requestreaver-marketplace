@@ -4,7 +4,7 @@
     {
       "id": "discord",
       "name": "Discord",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "author": "RequestReaver",
       "description": "Send findings, scan results and relay requests straight to a Discord channel or a private DM.",
       "main_tag": "automation",
@@ -94,6 +94,7 @@
             "webhookUrl"
           ],
           "label": "Discord channel",
+          "method": "Channel webhook",
           "steps": [
             {
               "method": "POST",
@@ -112,6 +113,7 @@
             "userId"
           ],
           "label": "Discord DM to user {{config.userId}}",
+          "method": "Bot DM",
           "steps": [
             {
               "method": "POST",
@@ -138,6 +140,14 @@
         }
       ],
       "changelog": [
+        {
+          "version": "1.1.0",
+          "date": "2026-08-26",
+          "notes": [
+            "Choose one connection method (channel webhook or bot DM).",
+            "Official Discord mark."
+          ]
+        },
         {
           "version": "1.0.0",
           "date": "2026-08-26",
