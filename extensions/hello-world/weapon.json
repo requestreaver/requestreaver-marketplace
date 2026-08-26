@@ -1,17 +1,28 @@
 {
   "id": "hello-world",
   "name": "Hello World!",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": "RequestReaver",
   "description": "A minimal example Weapon that adds its own view to the sidebar. A starting point for building Weapons with their own window.",
-  "category": "example",
-  "tags": ["example", "panel", "starter"],
+  "main_tag": "utility",
+  "optional_tags": ["example", "panel", "starter"],
+  "features": [
+    "Adds its own view to the left sidebar",
+    "Renders in a sandboxed frame, isolated from the app",
+    "A starting point for building panel Weapons"
+  ],
   "type": "panel",
   "ui": "index.html",
   "files": ["weapon.json", "index.html", "icon.svg"],
   "permissions": [],
   "icon": "icon.svg",
+  "screenshots": ["screenshot.png"],
   "changelog": [
+    {
+      "version": "1.1.0",
+      "date": "2026-08-26",
+      "notes": ["Overview screenshot, feature list and general category."]
+    },
     {
       "version": "1.0.0",
       "date": "2026-08-26",
