@@ -1,0 +1,110 @@
+{
+  "id": "discord",
+  "name": "Discord",
+  "version": "1.0.0",
+  "author": "RequestReaver",
+  "description": "Send findings, scan results and relay requests straight to a Discord channel or a private DM.",
+  "main_tag": "automation",
+  "optional_tags": ["notifications", "chat", "webhook", "bot"],
+  "features": [
+    "Post to a channel via an incoming webhook (no bot needed)",
+    "Or DM you directly through a Discord bot",
+    "Choose which events to send: findings, Raider, Ravager, relays",
+    "Fully editable message templates per event",
+    "Filter findings by minimum severity or endpoint"
+  ],
+  "type": "connector",
+  "config": [
+    {
+      "name": "webhookUrl",
+      "label": "Channel webhook URL",
+      "type": "url",
+      "required": false,
+      "help": "Post to a Discord channel. Create one in Server Settings -> Integrations -> Webhooks."
+    },
+    {
+      "name": "botToken",
+      "label": "Bot token (for direct messages)",
+      "type": "password",
+      "required": false,
+      "help": "A Discord bot token, to send a private DM instead of (or as well as) a channel."
+    },
+    {
+      "name": "userId",
+      "label": "Your Discord user ID",
+      "type": "text",
+      "required": false,
+      "help": "The user the bot should DM. Enable Developer Mode, then right-click your name -> Copy User ID."
+    }
+  ],
+  "events": {
+    "finding": {
+      "label": "New finding",
+      "placeholders": ["severity", "title", "endpoint", "evidence", "impact", "cwe", "description"],
+      "template": "**[{{severity}}] {{title}}**\nEndpoint: {{endpoint}}\nImpact: {{impact}}\n{{evidence}}"
+    },
+    "raider-done": {
+      "label": "Raider attack finished",
+      "placeholders": ["name", "results", "target"],
+      "template": "**Raider finished** - {{name}}\nTarget: {{target}}\n{{results}} requests sent"
+    },
+    "ravager-done": {
+      "label": "Ravager scan finished",
+      "placeholders": ["target", "findings", "status"],
+      "template": "**Ravager scan {{status}}** - {{target}}\n{{findings}} findings"
+    },
+    "relay": {
+      "label": "Relay request",
+      "placeholders": ["from", "title", "status"],
+      "template": "**Relay {{status}}** from {{from}}\n{{title}}"
+    }
+  },
+  "deliveries": [
+    {
+      "id": "webhook",
+      "when": ["webhookUrl"],
+      "label": "Discord channel",
+      "steps": [
+        {
+          "method": "POST",
+          "url": "{{config.webhookUrl}}",
+          "headers": { "Content-Type": "application/json" },
+          "body": "{\"content\": {{jsonMessage}}}"
+        }
+      ]
+    },
+    {
+      "id": "dm",
+      "when": ["botToken", "userId"],
+      "label": "Discord DM to user {{config.userId}}",
+      "steps": [
+        {
+          "method": "POST",
+          "url": "https://discord.com/api/v10/users/@me/channels",
+          "headers": { "Authorization": "Bot {{config.botToken}}", "Content-Type": "application/json" },
+          "body": "{\"recipient_id\": {{jsonConfig.userId}}}",
+          "extract": { "channelId": "id" }
+        },
+        {
+          "method": "POST",
+          "url": "https://discord.com/api/v10/channels/{{steps.channelId}}/messages",
+          "headers": { "Authorization": "Bot {{config.botToken}}", "Content-Type": "application/json" },
+          "body": "{\"content\": {{jsonMessage}}}"
+        }
+      ]
+    }
+  ],
+  "changelog": [
+    {
+      "version": "1.0.0",
+      "date": "2026-08-26",
+      "notes": [
+        "Initial release.",
+        "Channel webhook and bot-DM delivery for findings, Raider, Ravager and relay events."
+      ]
+    }
+  ],
+  "icon": "icon.svg",
+  "minAppVersion": "0.1.0",
+  "homepage": "https://github.com/requestreaver/requestreaver-marketplace"
+}

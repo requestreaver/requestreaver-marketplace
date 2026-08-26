@@ -1,0 +1,38 @@
+{
+  "id": "secret-detector",
+  "name": "Secret Detector",
+  "version": "1.1.0",
+  "author": "RequestReaver",
+  "description": "Detects secrets, API keys, tokens and private keys exposed in requests and responses, and raises a finding for each one.",
+  "main_tag": "detection",
+  "optional_tags": ["secrets", "keys", "tokens"],
+  "features": [
+    "Scans every request and response passing through the proxy",
+    "Detects AWS, Google, Slack, GitHub and Stripe keys",
+    "Flags private key blocks and OAuth client secrets",
+    "Raises a finding per secret with redacted evidence"
+  ],
+  "type": "observer",
+  "main": "index.js",
+  "files": ["weapon.json", "index.js", "icon.svg"],
+  "permissions": ["traffic:observe", "findings:write"],
+  "icon": "icon.svg",
+  "screenshots": ["screenshot.png"],
+  "changelog": [
+    {
+      "version": "1.1.0",
+      "date": "2026-08-26",
+      "notes": ["Cleaner key icon.", "Overview screenshot, feature list and general category."]
+    },
+    {
+      "version": "1.0.0",
+      "date": "2026-08-26",
+      "notes": [
+        "Initial release.",
+        "Detects AWS, Google, Slack, GitHub and Stripe keys plus private key blocks."
+      ]
+    }
+  ],
+  "minAppVersion": "0.1.0",
+  "homepage": "https://github.com/requestreaver/requestreaver-marketplace"
+}

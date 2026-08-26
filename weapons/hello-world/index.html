@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Hello World Weapon</title>
+    <style>
+      :root {
+        color-scheme: dark;
+      }
+      html,
+      body {
+        margin: 0;
+        height: 100%;
+      }
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        background: radial-gradient(1200px 600px at 50% -10%, #1d2634 0%, #0f1115 60%);
+        color: #e6e9ef;
+      }
+      .card {
+        text-align: center;
+        padding: 40px 48px;
+        border: 1px solid #2a3140;
+        border-radius: 16px;
+        background: #171b24;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+        max-width: 460px;
+      }
+      .badge {
+        display: inline-block;
+        font-size: 11px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #8fb2ff;
+        border: 1px solid #34507f;
+        background: rgba(76, 141, 255, 0.12);
+        padding: 3px 10px;
+        border-radius: 999px;
+        margin-bottom: 16px;
+      }
+      h1 {
+        margin: 0 0 8px;
+        font-size: 30px;
+        background: linear-gradient(90deg, #8034eb, #4c8dff);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+      p {
+        margin: 0 0 20px;
+        color: #98a1b3;
+        line-height: 1.55;
+        font-size: 13.5px;
+      }
+      .row {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+      }
+      button {
+        appearance: none;
+        border: 0;
+        border-radius: 8px;
+        padding: 9px 16px;
+        font: inherit;
+        font-weight: 600;
+        color: #fff;
+        background: #4c8dff;
+        cursor: pointer;
+      }
+      button:hover {
+        background: #6aa1ff;
+      }
+      .count {
+        font-variant-numeric: tabular-nums;
+        font-weight: 700;
+        min-width: 28px;
+      }
+      .clock {
+        margin-top: 18px;
+        font-size: 12px;
+        color: #6b7383;
+        font-variant-numeric: tabular-nums;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <div class="badge">Weapon &middot; Panel view</div>
+      <h1>Hello World!</h1>
+      <p>
+        This view is rendered by a community Weapon inside a sandboxed frame. It proves an extension can ship its own
+        window in RequestReaver &mdash; and that its scripts run in isolation.
+      </p>
+      <div class="row">
+        <button id="btn">Click me</button>
+        <span>Clicks: <span class="count" id="count">0</span></span>
+      </div>
+      <div class="clock" id="clock"></div>
+    </div>
+    <script>
+      let n = 0
+      const countEl = document.getElementById('count')
+      document.getElementById('btn').addEventListener('click', () => {
+        n += 1
+        countEl.textContent = String(n)
+      })
+      const clock = document.getElementById('clock')
+      const tick = () => {
+        clock.textContent = 'Live in the panel: ' + new Date().toLocaleTimeString()
+      }
+      tick()
+      setInterval(tick, 1000)
+    </script>
+  </body>
+</html>
