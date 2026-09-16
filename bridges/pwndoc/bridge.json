@@ -1,0 +1,50 @@
+{
+  "id": "pwndoc",
+  "name": "Pwndoc",
+  "version": "1.0.1",
+  "author": "RequestReaver",
+  "description": "Connect to a Pwndoc instance to browse reports and the vulnerability database, and add vulnerabilities, findings and audits.",
+  "main_tag": "reporting",
+  "optional_tags": ["pentest", "audits", "vulnerabilities"],
+  "features": [
+    "Browse all reports and the vulnerability database",
+    "Filter vulnerabilities by language, category or search",
+    "Add new vulnerabilities to the database",
+    "Add findings to an existing report (from the database or from scratch)",
+    "Create new audits — respecting custom fields and templates"
+  ],
+  "type": "connector",
+  "app": "pwndoc",
+  "config": [
+    { "name": "baseUrl", "label": "Pwndoc URL", "type": "url", "required": true },
+    { "name": "username", "label": "Username", "type": "text", "required": true },
+    { "name": "password", "label": "Password", "type": "password", "required": true },
+    {
+      "name": "insecure",
+      "label": "Allow self-signed certificate",
+      "type": "boolean",
+      "required": false,
+      "help": "Enable for a local or self-hosted instance that uses a self-signed TLS certificate."
+    }
+  ],
+  "events": {},
+  "deliveries": [],
+  "changelog": [
+    {
+      "version": "1.0.1",
+      "date": "2026-09-08",
+      "notes": ["Official Pwndoc icon.", "Interactive report + finding editor with live collaboration."]
+    },
+    {
+      "version": "1.0.0",
+      "date": "2026-09-07",
+      "notes": [
+        "Initial release.",
+        "Browse reports + the vulnerability database; add vulnerabilities, findings and audits via the native Pwndoc API, respecting custom fields and templates."
+      ]
+    }
+  ],
+  "icon": "icon.png",
+  "minAppVersion": "0.1.0",
+  "homepage": "https://github.com/pwndoc-ng/pwndoc-ng"
+}

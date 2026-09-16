@@ -1,0 +1,84 @@
+{
+  "id": "telegram",
+  "name": "Telegram",
+  "version": "1.0.0",
+  "author": "RequestReaver",
+  "description": "Send findings, scan results and relay requests to your Telegram account or a group via a bot.",
+  "main_tag": "notifications",
+  "optional_tags": ["chat", "bot", "messaging"],
+  "features": [
+    "Delivered by your own Telegram bot (via @BotFather)",
+    "Send to your private chat or to an existing group",
+    "Choose which events to send: findings, Raider, Ravager, relays",
+    "Fully editable message templates per event",
+    "Filter findings by minimum severity or endpoint"
+  ],
+  "type": "connector",
+  "config": [
+    {
+      "name": "botToken",
+      "label": "Bot token",
+      "type": "password",
+      "required": true,
+      "help": "Create a bot with @BotFather in Telegram and paste the token it gives you."
+    },
+    {
+      "name": "chatId",
+      "label": "Chat ID",
+      "type": "text",
+      "required": true,
+      "help": "Where to send: your own numeric chat ID (message the bot once first), a group's ID (negative, e.g. -100...), or @publicchannelname."
+    }
+  ],
+  "events": {
+    "finding": {
+      "label": "New finding",
+      "placeholders": ["severity", "title", "endpoint", "evidence", "impact", "cwe", "description"],
+      "template": "[{{severity}}] {{title}}\nEndpoint: {{endpoint}}\nImpact: {{impact}}\n{{evidence}}"
+    },
+    "raider-done": {
+      "label": "Raider attack finished",
+      "placeholders": ["name", "results", "target"],
+      "template": "Raider finished - {{name}}\nTarget: {{target}}\n{{results}} requests sent"
+    },
+    "ravager-done": {
+      "label": "Ravager scan finished",
+      "placeholders": ["target", "findings", "status"],
+      "template": "Ravager scan {{status}} - {{target}}\n{{findings}} findings"
+    },
+    "relay": {
+      "label": "Relay request",
+      "placeholders": ["from", "title", "status"],
+      "template": "Relay {{status}} from {{from}}\n{{title}}"
+    }
+  },
+  "deliveries": [
+    {
+      "id": "bot",
+      "when": ["botToken", "chatId"],
+      "label": "Telegram chat {{config.chatId}}",
+      "method": "Telegram bot",
+      "steps": [
+        {
+          "method": "POST",
+          "url": "https://api.telegram.org/bot{{config.botToken}}/sendMessage",
+          "headers": { "Content-Type": "application/json" },
+          "body": "{\"chat_id\": {{jsonConfig.chatId}}, \"text\": {{jsonMessage}}, \"disable_web_page_preview\": true}"
+        }
+      ]
+    }
+  ],
+  "changelog": [
+    {
+      "version": "1.0.0",
+      "date": "2026-08-27",
+      "notes": [
+        "Initial release.",
+        "Bot delivery to a private chat or a group for findings, Raider, Ravager and relay events."
+      ]
+    }
+  ],
+  "icon": "icon.svg",
+  "minAppVersion": "0.1.0",
+  "homepage": "https://github.com/requestreaver/requestreaver-marketplace"
+}

@@ -162,6 +162,195 @@
       "homepage": "https://github.com/requestreaver/requestreaver-marketplace",
       "path": "bridges/discord",
       "verified": true
+    },
+    {
+      "id": "telegram",
+      "name": "Telegram",
+      "version": "1.0.0",
+      "author": "RequestReaver",
+      "description": "Send findings, scan results and relay requests to your Telegram account or a group via a bot.",
+      "main_tag": "notifications",
+      "optional_tags": [
+        "chat",
+        "bot",
+        "messaging"
+      ],
+      "features": [
+        "Delivered by your own Telegram bot (via @BotFather)",
+        "Send to your private chat or to an existing group",
+        "Choose which events to send: findings, Raider, Ravager, relays",
+        "Fully editable message templates per event",
+        "Filter findings by minimum severity or endpoint"
+      ],
+      "type": "connector",
+      "config": [
+        {
+          "name": "botToken",
+          "label": "Bot token",
+          "type": "password",
+          "required": true,
+          "help": "Create a bot with @BotFather in Telegram and paste the token it gives you."
+        },
+        {
+          "name": "chatId",
+          "label": "Chat ID",
+          "type": "text",
+          "required": true,
+          "help": "Where to send: your own numeric chat ID (message the bot once first), a group's ID (negative, e.g. -100...), or @publicchannelname."
+        }
+      ],
+      "events": {
+        "finding": {
+          "label": "New finding",
+          "placeholders": [
+            "severity",
+            "title",
+            "endpoint",
+            "evidence",
+            "impact",
+            "cwe",
+            "description"
+          ],
+          "template": "[{{severity}}] {{title}}\nEndpoint: {{endpoint}}\nImpact: {{impact}}\n{{evidence}}"
+        },
+        "raider-done": {
+          "label": "Raider attack finished",
+          "placeholders": [
+            "name",
+            "results",
+            "target"
+          ],
+          "template": "Raider finished - {{name}}\nTarget: {{target}}\n{{results}} requests sent"
+        },
+        "ravager-done": {
+          "label": "Ravager scan finished",
+          "placeholders": [
+            "target",
+            "findings",
+            "status"
+          ],
+          "template": "Ravager scan {{status}} - {{target}}\n{{findings}} findings"
+        },
+        "relay": {
+          "label": "Relay request",
+          "placeholders": [
+            "from",
+            "title",
+            "status"
+          ],
+          "template": "Relay {{status}} from {{from}}\n{{title}}"
+        }
+      },
+      "deliveries": [
+        {
+          "id": "bot",
+          "when": [
+            "botToken",
+            "chatId"
+          ],
+          "label": "Telegram chat {{config.chatId}}",
+          "method": "Telegram bot",
+          "steps": [
+            {
+              "method": "POST",
+              "url": "https://api.telegram.org/bot{{config.botToken}}/sendMessage",
+              "headers": {
+                "Content-Type": "application/json"
+              },
+              "body": "{\"chat_id\": {{jsonConfig.chatId}}, \"text\": {{jsonMessage}}, \"disable_web_page_preview\": true}"
+            }
+          ]
+        }
+      ],
+      "changelog": [
+        {
+          "version": "1.0.0",
+          "date": "2026-08-27",
+          "notes": [
+            "Initial release.",
+            "Bot delivery to a private chat or a group for findings, Raider, Ravager and relay events."
+          ]
+        }
+      ],
+      "icon": "icon.svg",
+      "minAppVersion": "0.1.0",
+      "homepage": "https://github.com/requestreaver/requestreaver-marketplace",
+      "path": "bridges/telegram",
+      "verified": true
+    },
+    {
+      "id": "pwndoc",
+      "name": "Pwndoc",
+      "version": "1.0.1",
+      "author": "RequestReaver",
+      "description": "Connect to a Pwndoc instance to browse reports and the vulnerability database, and add vulnerabilities, findings and audits.",
+      "main_tag": "reporting",
+      "optional_tags": [
+        "pentest",
+        "audits",
+        "vulnerabilities"
+      ],
+      "features": [
+        "Browse all reports and the vulnerability database",
+        "Filter vulnerabilities by language, category or search",
+        "Add new vulnerabilities to the database",
+        "Add findings to an existing report (from the database or from scratch)",
+        "Create new audits — respecting custom fields and templates"
+      ],
+      "type": "connector",
+      "app": "pwndoc",
+      "config": [
+        {
+          "name": "baseUrl",
+          "label": "Pwndoc URL",
+          "type": "url",
+          "required": true
+        },
+        {
+          "name": "username",
+          "label": "Username",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "password",
+          "label": "Password",
+          "type": "password",
+          "required": true
+        },
+        {
+          "name": "insecure",
+          "label": "Allow self-signed certificate",
+          "type": "boolean",
+          "required": false,
+          "help": "Enable for a local or self-hosted instance that uses a self-signed TLS certificate."
+        }
+      ],
+      "events": {},
+      "deliveries": [],
+      "changelog": [
+        {
+          "version": "1.0.1",
+          "date": "2026-09-08",
+          "notes": [
+            "Official Pwndoc icon.",
+            "Interactive report + finding editor with live collaboration."
+          ]
+        },
+        {
+          "version": "1.0.0",
+          "date": "2026-09-07",
+          "notes": [
+            "Initial release.",
+            "Browse reports + the vulnerability database; add vulnerabilities, findings and audits via the native Pwndoc API, respecting custom fields and templates."
+          ]
+        }
+      ],
+      "icon": "icon.png",
+      "minAppVersion": "0.1.0",
+      "homepage": "https://github.com/pwndoc-ng/pwndoc-ng",
+      "path": "bridges/pwndoc",
+      "verified": true
     }
   ]
 }
